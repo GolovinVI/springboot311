@@ -10,11 +10,13 @@
 <p th:text="${'Город: ' + user.getUserCity()}">ФАМИЛИЯ</p>
 <p th:text="${user.getId()}">ГОРОД</p>
 
-<a th:href="@{/users/{id}/edit(id=${user.getId()})}">Редактировать</a>
+<span th:if="${isAdmin}">
+    <a th:href="@{/user/{id}/edit(id=${user.getId()})}">Редактировать</a>
 
-<form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
-    <input type="submit" value="Удалить"/>
-</form>
-
+    <form th:method="DELETE" th:action="@{/user/{id}(id=${user.getId()})}">
+        <input type="submit" value="Удалить"/>
+    </form>
+</span>
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>

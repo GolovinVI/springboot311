@@ -7,14 +7,14 @@
 <body>
 
 <div th:each="user : ${users}">
-  <a th:href="@{/users/{id}(id=${user.getId()})}"
+  <a th:href="@{/user/{id}(id=${user.getId()})}"
      th:text="${user.getFirstName() + ', ' + user.getLastName()}">Пользователь</a>
 </div>
 
 <br/>
 <hr/>
 
-<a href="/users/new">Создать нового пользователя</a>
-
+<a href="/user/new">Создать нового пользователя</a>
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>

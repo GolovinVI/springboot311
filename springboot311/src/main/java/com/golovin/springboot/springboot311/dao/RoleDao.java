@@ -1,21 +1,18 @@
 package com.golovin.springboot.springboot311.dao;
 
-
 import com.golovin.springboot.springboot311.model.Role;
-import com.golovin.springboot.springboot311.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.SqlResultSetMapping;
-import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface UserDao extends CrudRepository<User,Long> {
-
-    List<User> findAll();
-
-    User findByFirstName(String firstName);
+public interface RoleDao extends CrudRepository<Role,Integer> {
+    @Query( value = "select r.*\n" +
+            "from role  r join user_role ur on r.id = ur.role_id\n" +
+            "where user_id= :id",nativeQuery = true)
+    Set<Role> findAllRolesByUserId(@Param("id") Long userId);
+    Set<Role> findAll();
 }

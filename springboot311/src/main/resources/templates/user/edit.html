@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
+<form th:method="PATCH" th:action="@{/templates/user/{id}(id=${user.getId()})}" th:object="${user}">
     <label for="firstName"> Введите имя: </label>
     <input type="text" th:field="*{firstName}" id="firstName"/>
     <div style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Ошибка ввода имени!</div>
@@ -21,6 +21,6 @@
     <br/>
     <input style="color: red" type="submit" th:value="Обновить">
 </form>
-
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>
