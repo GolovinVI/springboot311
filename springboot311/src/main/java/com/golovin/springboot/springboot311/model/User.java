@@ -33,6 +33,10 @@ public class User implements UserDetails {
     @Column
     private String password;
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Getter
     @Setter
     @ManyToMany(fetch = FetchType.LAZY)
