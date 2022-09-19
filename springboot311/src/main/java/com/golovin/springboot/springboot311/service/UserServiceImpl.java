@@ -1,10 +1,9 @@
 package com.golovin.springboot.springboot311.service;
 
-import com.golovin.springboot.springboot311.dao.RoleDao;
-import com.golovin.springboot.springboot311.dao.UserDao;
+import com.golovin.springboot.springboot311.repository.RoleRepository;
+import com.golovin.springboot.springboot311.repository.UserRepository;
 import com.golovin.springboot.springboot311.model.Role;
 import com.golovin.springboot.springboot311.model.User;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,40 +17,40 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
     @Autowired
-    private RoleDao roleDao;
+    private RoleRepository roleDao;
 
 
     @Override
     @Transactional(readOnly = true)
     public List<User> getAllUsers() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional
     public void saveUser(User user) {
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void updateUser(Long id, User user) {
         user.setId(id);
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        userDao.findById(id).ifPresent(user->userDao.delete(user));
+        userRepository.findById(id).ifPresent(user-> userRepository.delete(user));
     }
 
     @Override
     @Transactional(readOnly = true)
     public User getUser(Long id) {
-        return userDao.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow();
     }
 
     @Override
@@ -64,6 +63,6 @@ public class UserServiceImpl implements UserService{
         return userDetails;
     }
     public User findByFirstName(String firstName){
-        return userDao.findByFirstName(firstName);
+        return userRepository.findByFirstName(firstName);
     }
 }

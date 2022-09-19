@@ -6,10 +6,14 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/user}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin}" th:object="${user}">
     <label for="firstName">Введите имя: </label>
     <input type="text" th:field="*{firstName}" id="firstName"/>
     <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Ошибка ввода имени!</div>
+    <br/>
+    <label for="password"> Введите Пароль: </label>
+    <input type="password" th:field="*{password}" id="password"/>
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода Пароля!</div>
     <br/>
     <label for="lastName">Введите фамилию: </label>
     <input type="text" th:field="*{lastName}" id="lastName"/>
@@ -20,7 +24,7 @@
     <div style="color:red" th:if="${#fields.hasErrors('userCity')}" th:errors="*{userCity}">Ошибка ввода города!</div>
     <br/>
     <label for="role">Роли</label>
-    <select id="role" class="form-control" th:field="*{roles}" >
+    <select id="role" class="form-control" th:field="*{roles}" multiple="multiple" >
         <option th:each="role:${roleSet}"  th:value="${role.getId()}" th:text="${role.getAuthority()}"></option>
     </select>
     <input type="submit" value="Создать!"/>
