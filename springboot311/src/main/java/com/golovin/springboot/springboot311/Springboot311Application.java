@@ -1,6 +1,6 @@
 package com.golovin.springboot.springboot311;
 
-import com.golovin.springboot.springboot311.dao.RoleDao;
+import com.golovin.springboot.springboot311.repository.RoleRepository;
 import com.golovin.springboot.springboot311.model.Role;
 import com.golovin.springboot.springboot311.model.User;
 import com.golovin.springboot.springboot311.service.UserService;
@@ -9,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Set;
 
@@ -22,7 +21,7 @@ public class Springboot311Application {
 
 	@Bean
 	@Order(1)
-	public CommandLineRunner initRole(RoleDao roleDao, UserService userService){
+	public CommandLineRunner initRole(RoleRepository roleDao, UserService userService){
 		return args->{
 			Role role=new Role(1,"ROLE_ADMIN");
 			role=roleDao.save(role);

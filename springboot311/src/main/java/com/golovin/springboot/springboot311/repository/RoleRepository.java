@@ -1,4 +1,4 @@
-package com.golovin.springboot.springboot311.dao;
+package com.golovin.springboot.springboot311.repository;
 
 import com.golovin.springboot.springboot311.model.Role;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface RoleDao extends CrudRepository<Role,Integer> {
+public interface RoleRepository extends CrudRepository<Role,Integer> {
     @Query( value = "select r.*\n" +
             "from role  r join user_role ur on r.id = ur.role_id\n" +
             "where user_id= :id",nativeQuery = true)
