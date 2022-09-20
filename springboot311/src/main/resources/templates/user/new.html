@@ -3,32 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Новый пользователь</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-
-<form th:method="POST" th:action="@{/admin}" th:object="${user}">
-    <label for="firstName">Введите имя: </label>
-    <input type="text" th:field="*{firstName}" id="firstName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Ошибка ввода имени!</div>
-    <br/>
-    <label for="password"> Введите Пароль: </label>
-    <input type="password" th:field="*{password}" id="password"/>
-    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода Пароля!</div>
-    <br/>
-    <label for="lastName">Введите фамилию: </label>
-    <input type="text" th:field="*{lastName}" id="lastName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Ошибка ввода фамилии!</div>
-    <br/>
-    <label for="userCity">Введите город: </label>
-    <input type="text" th:field="*{userCity}" id="userCity"/>
-    <div style="color:red" th:if="${#fields.hasErrors('userCity')}" th:errors="*{userCity}">Ошибка ввода города!</div>
-    <br/>
-    <label for="role">Роли</label>
-    <select id="role" class="form-control" th:field="*{roles}" multiple="multiple" >
-        <option th:each="role:${roleSet}"  th:value="${role.getId()}" th:text="${role.getAuthority()}"></option>
-    </select>
-    <input type="submit" value="Создать!"/>
-</form>
-<a th:href="@{/logout}">Logout</a>
+<div class="pb-2 mt-4 mb-2 border-bottom bg-dark text-white d-flex ">
+    <span th:text="${user.getFirstName()}"></span>:<span class="mr-2" th:each="role : ${roles}" th:text="${role.getValue()}"></span>
+    <a class="text-secondary ms-auto" th:href="@{/logout}">Logout</a>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="p-0 col-2">
+            <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" href="/admin" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true">Admin</a>
+                <a class="nav-link" href="/user"
+                   role="tab"
+                   aria-controls="v-pills-profile" aria-selected="false">User</a>
+            </div>
+        </div>
+        <div class="col-10 px-0">
+            <h2>Admin panel</h2>
+            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                <a class="nav-link " data-toggle="tab" th:href="@{/admin/}">Users table</a>
+                <a class="nav-link active" data-toggle="tab" th:href="@{/admin/new}">New User</a>
+            </ul>
+            <div class="tab-content" id="myTabContent1">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div>
+                        <h3 class="bg-gray">Add new user</h3>
+                        <form class="flex-content d-flex flex-column" th:method="POST" th:action="@{/admin}" th:object="${user}">
+                            <label class="mx-auto" for="firstName">First Name</label>
+                            <br>
+                            <input class="mx-auto w-50" type="text" th:field="*{firstName}" id="firstName"/>
+                            <div class="mx-auto w-50" style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
+                                Ошибка ввода имени!
+                            </div>
+                            <br/>
+                            <label class="mx-auto" for="password"> Password </label>
+                            <input class="mx-auto w-50" type="password" th:field="*{password}" id="password"/>
+                            <div class="mx-auto w-50" style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                                Ошибка ввода Пароля!
+                            </div>
+                            <br/>
+                            <label class="mx-auto" for="lastName">Last Name </label>
+                            <input class="mx-auto w-50" type="text" th:field="*{lastName}" id="lastName"/>
+                            <div class="mx-auto w-50" style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
+                                Ошибка ввода фамилии!
+                            </div>
+                            <br/>
+                            <label class="mx-auto" for="userCity">City </label>
+                            <input class="mx-auto w-50" type="text" th:field="*{userCity}" id="userCity"/>
+                            <div class="mx-auto w-50" style="color:red" th:if="${#fields.hasErrors('userCity')}" th:errors="*{userCity}">
+                                Ошибка ввода города!
+                            </div>
+                            <br/>
+                            <label class="mx-auto" for="role">Role</label>
+                            <select class="mx-auto w-50 form-control" id="role"  th:field="*{roles}" multiple="multiple">
+                                <option th:each="role:${roleSet}" th:value="${role.getId()}"
+                                        th:text="${role.getAuthority()}"></option>
+                            </select>
+                            <input class="mx-auto w-50 my-5 btn btn-success" type="submit" value="Add new user"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

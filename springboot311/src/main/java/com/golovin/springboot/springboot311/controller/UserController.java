@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     private final UserService userService;
-
+    private final RoleService roleService;
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
         String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user=userService.getUser(id);
-        model.addAttribute("user", user);
         User userData=userService.findByFirstName(principalName);
+        model.addAttribute("user",userData);
+        model.addAttribute("roles",userData.getRoles());
+        model.addAttribute("roleSet",roleService.findAll());
         boolean isAdmin= userData.getRoles().stream()
                 .map(Role::getAuthority)
                 .anyMatch(name -> name.equals("ROLE_ADMIN"));
