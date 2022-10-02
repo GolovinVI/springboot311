@@ -75,22 +75,8 @@
                                     <th scope="col">Delete</th>
                                 </tr>
                                 </thead>
-                                <tbody id="'tbody-users">
-                                <tr>
-                                    <td id="td-user-id"></td>
-                                    <td id="td-first-name"></td>
-                                    <td id="td-last-name"></td>
-                                    <td id="td-city"></td>
-                                    <td id="td-roles-"></td>
-                                    <td>
-                                        <a type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal"
-                                           data-bs-target="#editModal">Edit</a>
-                                    </td>
-                                    <td>
-                                        <a type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                           data-bs-target="#DELETE">Delete</a>
-                                    </td>
-                                </tr>
+                                <tbody id="tbody-users">
+
                                 </tbody>
                             </table>
                         </div>
@@ -100,42 +86,36 @@
                     <div class="tab-pane fade show" id="new-user" role="tabpanel" aria-labelledby="home-tab">
                         <div>
                             <h3 class="bg-gray">Add new user</h3>
-                            <form class="flex-content d-flex flex-column" th:method="POST" th:action="@{/admin}"
-                                  th:object="${user}">
+                            <form class="flex-content d-flex flex-column">
                                 <label class="mx-auto" for="firstName">First Name</label>
                                 <br>
-                                <input class="mx-auto w-50" type="text" th:field="*{firstName}" id="firstName"/>
-                                <div class="mx-auto w-50" style="color:red" th:if="${#fields.hasErrors('firstName')}"
-                                     th:errors="*{firstName}">
+                                <input class="mx-auto w-50" type="text"  id="firstName"/>
+                                <div class="mx-auto w-50" style="color:red">
                                     Ошибка ввода имени!
                                 </div>
                                 <br/>
                                 <label class="mx-auto" for="password"> Password </label>
-                                <input class="mx-auto w-50" type="password" th:field="*{password}" id="password"/>
-                                <div class="mx-auto w-50" style="color: red" th:if="${#fields.hasErrors('password')}"
-                                     th:errors="*{password}">
+                                <input class="mx-auto w-50" type="password"  id="password"/>
+                                <div class="mx-auto w-50" style="color: red">
                                     Ошибка ввода Пароля!
                                 </div>
                                 <br/>
                                 <label class="mx-auto" for="lastName">Last Name </label>
-                                <input class="mx-auto w-50" type="text" th:field="*{lastName}" id="lastName"/>
-                                <div class="mx-auto w-50" style="color:red" th:if="${#fields.hasErrors('lastName')}"
-                                     th:errors="*{lastName}">
+                                <input class="mx-auto w-50" type="text"  id="lastName"/>
+                                <div class="mx-auto w-50" style="color:red">
                                     Ошибка ввода фамилии!
                                 </div>
                                 <br/>
                                 <label class="mx-auto" for="userCity">City </label>
-                                <input class="mx-auto w-50" type="text" th:field="*{userCity}" id="userCity"/>
-                                <div class="mx-auto w-50" style="color:red" th:if="${#fields.hasErrors('userCity')}"
-                                     th:errors="*{userCity}">
+                                <input class="mx-auto w-50" type="text"  id="userCity"/>
+                                <div class="mx-auto w-50" style="color:red">
                                     Ошибка ввода города!
                                 </div>
                                 <br/>
                                 <label class="mx-auto" for="role">Role</label>
-                                <select class="mx-auto w-50 form-control" id="role" th:field="*{roles}"
+                                <select class="mx-auto w-50 form-control" id="role"
                                         multiple="multiple">
-                                    <option th:each="role:${roleSet}" th:value="${role.getId()}"
-                                            th:text="${role.getAuthority()}"></option>
+                                    <option ></option>
                                 </select>
                                 <input class="mx-auto w-50 my-5 btn btn-success" type="submit" value="Add new user"/>
                             </form>
@@ -162,15 +142,14 @@
                                     <th scope="col">Role</th>
                                 </tr>
                                 </thead>
-                                <tbody th:object="${user}">
+                                <tbody >
                                 <tr>
-                                    <td th:text="${user.getId()}"></td>
-                                    <td th:text="${user.getFirstName()}"></td>
-                                    <td th:text="${user.getLastName()}"></td>
-                                    <td th:text="${user.getUserCity()}"></td>
+                                    <td >id</td>
+                                    <td >first name</td>
+                                    <td > last name</td>
+                                    <td > user city</td>
                                     <td>
-                                <span class="mr-2" th:each="role : ${user.getRoles()}"
-                                      th:text="${role.getValue()}"/>
+                                        <span class="mr-2"/>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -184,58 +163,25 @@
 
 </div>
 <!--EDIT MODAL-->
-<div class="modal fade" th:id="${'editModal'+user.id}"
+<div class="modal fade"
+     id="editModal"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" modal-dialog-centered>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Edit user</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                <button type="button" name="btnDisMissClose" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
-            <form th:object="${user}"
-                  th:method="PUT"
-                  th:action="@{/admin/{id}(id=${user.getId()})}">
-                <div class="modal-body col-md text-center">
-                    <br>
-                    <label for="firstName0"><b>FirstName</b></label>
-                    <input th:name="firstName" th:type="text"
-                           class="form-control" id="firstName0"
-                           th:value="${user.firstName}"/>
-                    <br>
-                    <label for="lastName0"><b>LastName</b></label>
-                    <input th:name="lastName" th:type="text"
-                           class="form-control" id="lastName0"
-                           th:value="${user.lastName}"/>
-                    <br>
-                    <label for="userCity0"><b>UserCity</b></label>
-                    <input th:name="userCity" th:type="text"
-                           class="form-control" id="userCity0"
-                           th:value="${user.userCity}"/>
+            <form id="formEditUser">
+                <div class="modal-body col-md text-center" id="edit-modal-body">
 
-                    <br>
-                    <label for="password0"><b>Password</b></label>
-                    <input th:name="password" type="text"
-                           class="form-control" id="password0"
-                           th:value="${user.password}"/>
-                    <br>
-                    <label for="roles"><b>Role</b></label>
-                    <select multiple class="form-control form-control-sm" id="roles"
-                            name="roles" size="2" required>
-                        <option th:each="role: ${roleSet}"
-                                th:value="${role.getId()}"
-                                th:selected="${user.roles.contains(role)}">
-                            <th:block th:text="${role.getValue()}">
-                            </th:block>
-                        </option>
-                    </select>
-                    <br><br>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" name='btnEditModal' class="btn btn-primary">
                         Edit
                     </button>
-                    <button type="button" class="btn btn-secondary"
+                    <button type="button" name='btnCloseModal' class="btn btn-secondary"
                             data-bs-dismiss="modal">Close
                     </button>
                 </div>
@@ -245,7 +191,7 @@
 </div>
 
 <!--DELETE MODAL-->
-<div class="modal fade" th:id="${'DELETE'+user.id}"
+<div class="modal fade"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -256,28 +202,19 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
-            <form class="modal-body col-md text-center"
-                  th:action="@{/admin/{id}(id=${user.getId()})}"
-                  th:method="DELETE">
+            <form class="modal-body col-md text-center">
                 <div class="modal-body col-md">
                     <label for="id"><b>ID</b></label>
-                    <input th:name="id" th:type="text" class="form-control"
-                           id="id" th:value="${user.id}" disabled/>
+                    <input  class="form-control" id="id"  disabled/>
                     <br>
                     <label for="name1"><b>First Name</b></label>
-                    <input th:name="name" th:type="text"
-                           class="form-control"
-                           id="name1" th:value="${user.firstName}" disabled/>
+                    <input class="form-control" id="name1"  disabled/>
                     <br>
                     <label for="surname1"><b>Last Name</b></label>
-                    <input th:name="surname" th:type="text"
-                           class="form-control" id="surname1"
-                           th:value="${user.lastName}" disabled/>
+                    <input class="form-control" id="surname1" disabled/>
                     <br>
                     <label for="age1"><b>User City</b></label>
-                    <input th:name="age" th:type="number"
-                           class="form-control"
-                           id="age1" th:value="${user.userCity}" disabled/>
+                    <input class="form-control" id="age1"  disabled/>
                     <br>
                 </div>
 
@@ -293,5 +230,6 @@
     </div>
 </div>
 
+<script type="text/javascript" src="/admin-panel-all-users.js" ></script>
 </body>
 </html>

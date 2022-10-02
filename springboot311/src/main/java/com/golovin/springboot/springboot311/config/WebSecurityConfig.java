@@ -1,16 +1,14 @@
 package com.golovin.springboot.springboot311.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @EnableWebSecurity
 @Configuration
@@ -22,8 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        http
                .authorizeRequests()
-               .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
+               .antMatchers("user/**").hasAnyRole("ADMIN","USER")
                .antMatchers("/admin/**").hasRole("ADMIN")
+               .antMatchers(HttpMethod.PUT).hasRole("ADMIN")
+               .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+               .antMatchers(HttpMethod.GET).permitAll()
                .anyRequest().hasRole("ADMIN")
                .and()
                .formLogin().successHandler(successUserHandler)
@@ -32,7 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                .logout()
                .logoutUrl("/logout")
                .logoutSuccessUrl("/login")
-               .permitAll();
+               .permitAll()
+               .and()
+               .httpBasic();
     }
 
     @Override
