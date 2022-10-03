@@ -5,6 +5,7 @@ import com.golovin.springboot.springboot311.model.User;
 import com.golovin.springboot.springboot311.service.RoleService;
 import com.golovin.springboot.springboot311.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +21,13 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
+
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, Model model) {
-        String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User userData=userService.findByFirstName(principalName);
-        model.addAttribute("user",userData);
-        model.addAttribute("roles",userData.getRoles());
-        model.addAttribute("roleSet",roleService.findAll());
-        boolean isAdmin= userData.getRoles().stream()
-                .map(Role::getAuthority)
-                .anyMatch(name -> name.equals("ROLE_ADMIN"));
-        model.addAttribute("isAdmin",isAdmin);
-        return "user/show";
+    public String getUserById(@PathVariable("id") Long id, Model model,@AuthenticationPrincipal User userData) {
+        User user=userService.getUser(id);
+        model.addAttribute("user", user);
+        model.addAttribute("isAdmin",userData.isAdmin());
+        return "user/user";
     }
 
 

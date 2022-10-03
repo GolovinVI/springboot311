@@ -7,5 +7,5 @@ import java.util.Set;
 
 public interface RoleService {
     Set<Role> findAllRolesByUserId( Long userId);
-    Set<Role> findAll();
+    Set<Role> findAllRoles();
 }
