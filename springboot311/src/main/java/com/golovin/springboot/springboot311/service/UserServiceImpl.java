@@ -4,6 +4,7 @@ import com.golovin.springboot.springboot311.repository.RoleRepository;
 import com.golovin.springboot.springboot311.repository.UserRepository;
 import com.golovin.springboot.springboot311.model.Role;
 import com.golovin.springboot.springboot311.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,11 +16,10 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleDao;
+    private final UserRepository userRepository;
+    private final RoleRepository roleDao;
 
 
     @Override

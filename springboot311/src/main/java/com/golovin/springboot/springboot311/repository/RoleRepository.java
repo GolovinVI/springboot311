@@ -11,8 +11,10 @@ import java.util.Set;
 @Repository
 public interface RoleRepository extends CrudRepository<Role,Integer> {
     @Query( value = "select r.*\n" +
-            "from role  r join user_role ur on r.id = ur.role_id\n" +
-            "where user_id= :id",nativeQuery = true)
+            "from role  r \n" +
+            "   join user_role ur on r.id = ur.role_id\n" +
+            "where user_id= :id",
+            nativeQuery = true)
     Set<Role> findAllRolesByUserId(@Param("id") Long userId);
     Set<Role> findAll();
 }
