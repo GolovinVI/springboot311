@@ -7,6 +7,7 @@ import com.golovin.springboot.springboot311.model.User;
 import com.golovin.springboot.springboot311.service.RoleService;
 import com.golovin.springboot.springboot311.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -25,8 +26,11 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
     @GetMapping
-    public String getAllUsers(Model model) {
+    public String getAllUsers(Model model, @AuthenticationPrincipal User userData) {
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("user",userData);
+        model.addAttribute("roles",userData.getRoles());
+        model.addAttribute("roleSet",roleService.findAllRoles());
         return "admin/allUsers";
     }
     @GetMapping("/new")
@@ -52,12 +56,9 @@ public class AdminController {
         return "admin/edit";
     }
 
-    @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    @PutMapping("/{id}")
+    public String updateUser(@ModelAttribute("user")  User user,
                          @PathVariable("id") Long id) {
-        if (bindingResult.hasErrors())
-            return "admin/edit";
-
         userService.updateUser(id, user);
         return "redirect:/admin";
     }
