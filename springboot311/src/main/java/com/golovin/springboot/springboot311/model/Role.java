@@ -10,8 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="role")
-@Getter
-@Setter
+@Data
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor

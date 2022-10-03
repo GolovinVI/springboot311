@@ -7,7 +7,6 @@ import com.golovin.springboot.springboot311.model.User;
 import com.golovin.springboot.springboot311.service.RoleService;
 import com.golovin.springboot.springboot311.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -26,45 +25,45 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
     @GetMapping
-    public String index(Model model) {
+    public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "user/index";
+        return "admin/allUsers";
     }
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("user") User user, Model model) {
-        Set<Role> roles=roleService.findAll();
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+        Set<Role> roles=roleService.findAllRoles();
         model.addAttribute("roleSet",roles);
-        return "user/new";
+        return "admin/new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") @Valid User user,
+    public String createUser(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "user/new";
+            return "admin/new";
 
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
+    public String editUser(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.getUser(id));
-        return "user/edit";
+        return "admin/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") Long id) {
         if (bindingResult.hasErrors())
-            return "user/edit";
+            return "admin/edit";
 
         userService.updateUser(id, user);
         return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
