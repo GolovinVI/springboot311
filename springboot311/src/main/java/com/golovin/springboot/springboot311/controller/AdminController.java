@@ -1,7 +1,6 @@
 package com.golovin.springboot.springboot311.controller;
 
 
-
 import com.golovin.springboot.springboot311.model.Role;
 import com.golovin.springboot.springboot311.model.User;
 import com.golovin.springboot.springboot311.service.RoleService;
@@ -24,21 +23,24 @@ public class AdminController {
 
     private final UserService userService;
     private final RoleService roleService;
+
     @GetMapping
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "admin/allUsers";
     }
+
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user, Model model) {
-        Set<Role> roles=roleService.findAllRoles();
-        model.addAttribute("roleSet",roles);
+    public String getNewUser(@ModelAttribute("user") User user, Model model) {
+        Set<Role> roles = roleService.findAllRoles();
+        model.addAttribute("roleSet", roles);
         return "admin/new";
     }
 
+
     @PostMapping()
-    public String createUser(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult) {
+    public String createNewUser(@ModelAttribute("user") @Valid User user,
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "admin/new";
 
@@ -54,7 +56,7 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                         @PathVariable("id") Long id) {
+                             @PathVariable("id") Long id) {
         if (bindingResult.hasErrors())
             return "admin/edit";
 

@@ -19,14 +19,15 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SuccessUserHandler implements AuthenticationSuccessHandler {
     private final UserService userService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         User user = userService.findByFirstName(authentication.getName());
         if (roles.contains("ROLE_ADMIN")) {
             httpServletResponse.sendRedirect("/admin");
-        } else if(roles.contains("ROLE_USER")){
-            httpServletResponse.sendRedirect(String.format("user/%d",user.getId()));
+        } else if (roles.contains("ROLE_USER")) {
+            httpServletResponse.sendRedirect(String.format("user/%d", user.getId()));
         }
     }
 }

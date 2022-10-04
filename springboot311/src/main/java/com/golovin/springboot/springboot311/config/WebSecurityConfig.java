@@ -16,21 +16,22 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http
-               .authorizeRequests()
-               .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
-               .antMatchers("/admin/**").hasRole("ADMIN")
-               .anyRequest().hasRole("ADMIN")
-               .and()
-               .formLogin().successHandler(successUserHandler)
-               .permitAll()
-               .and()
-               .logout()
-               .logoutUrl("/logout")
-               .logoutSuccessUrl("/login")
-               .permitAll();
+        http
+                .authorizeRequests()
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().hasRole("ADMIN")
+                .and()
+                .formLogin().successHandler(successUserHandler)
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll();
     }
 
     @Override

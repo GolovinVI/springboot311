@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Set;
 
 public interface RoleService {
-    Set<Role> findAllRolesByUserId( Long userId);
+    Set<Role> findAllRolesByUserId(Long userId);
+
     Set<Role> findAllRoles();
 }

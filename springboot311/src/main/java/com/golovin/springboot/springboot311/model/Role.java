@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name="role")
+@Table(name = "role")
 @Data
 @ToString
 @RequiredArgsConstructor
@@ -19,8 +19,7 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
-    private  String value;
-
+    private String value;
 
 
     @Override

@@ -9,8 +9,9 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleDao;
+
     @Override
     public Set<Role> findAllRolesByUserId(Long userId) {
         return roleDao.findAllRolesByUserId(userId);

@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleDao;
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        userRepository.findById(id).ifPresent(user-> userRepository.delete(user));
+        userRepository.findById(id).ifPresent(user -> userRepository.delete(user));
     }
 
     @Override
@@ -55,14 +55,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userDetails=getAllUsers()
+        User userDetails = getAllUsers()
                 .stream().filter(user -> user.getFirstName().equals(username))
-                .findFirst().orElseThrow(()->new UsernameNotFoundException("Not found: "+username));
-        Set<Role> roleSet=roleDao.findAllRolesByUserId(userDetails.getId());
+                .findFirst().orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));
+        Set<Role> roleSet = roleDao.findAllRolesByUserId(userDetails.getId());
         userDetails.setRoles(roleSet);
         return userDetails;
     }
-    public User findByFirstName(String firstName){
+
+    public User findByFirstName(String firstName) {
         return userRepository.findByFirstName(firstName);
     }
 }

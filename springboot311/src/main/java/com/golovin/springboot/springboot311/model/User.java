@@ -2,20 +2,19 @@ package com.golovin.springboot.springboot311.model;
 
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @Data
 public class User implements UserDetails {
 
@@ -41,20 +40,20 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     public User() {
-        this.roles=Set.of(new Role(1,"ROLE_USER"));
+        this.roles = new HashSet<>();
     }
 
-    public User(String firstName, String password,Set<Role> roles) {
+    public User(String firstName, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.password = password;
-        this.roles=roles;
+        this.roles = roles;
     }
 
     public User(String firstName, String lastName, String userCity) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userCity = userCity;
-        this.roles=Set.of(new Role(1,"ROLE_USER"));
+        this.roles = Set.of(new Role(1, "ROLE_USER"));
     }
 
     @Override
@@ -94,7 +93,7 @@ public class User implements UserDetails {
         return true;
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roles.stream()
                 .map(Role::getAuthority)
                 .anyMatch(name -> name.equals("ROLE_ADMIN"));
