@@ -90,27 +90,17 @@
                                 <label class="mx-auto" for="firstName">First Name</label>
                                 <br>
                                 <input class="mx-auto w-50" type="text"  id="firstName"/>
-                                <div class="mx-auto w-50" style="color:red">
-                                    Ошибка ввода имени!
-                                </div>
                                 <br/>
                                 <label class="mx-auto" for="password"> Password </label>
                                 <input class="mx-auto w-50" type="password"  id="password"/>
-                                <div class="mx-auto w-50" style="color: red">
-                                    Ошибка ввода Пароля!
-                                </div>
                                 <br/>
                                 <label class="mx-auto" for="lastName">Last Name </label>
                                 <input class="mx-auto w-50" type="text"  id="lastName"/>
-                                <div class="mx-auto w-50" style="color:red">
-                                    Ошибка ввода фамилии!
-                                </div>
+
                                 <br/>
                                 <label class="mx-auto" for="userCity">City </label>
                                 <input class="mx-auto w-50" type="text"  id="userCity"/>
-                                <div class="mx-auto w-50" style="color:red">
-                                    Ошибка ввода города!
-                                </div>
+
                                 <br/>
                                 <label class="mx-auto" for="role">Role</label>
                                 <select class="mx-auto w-50 form-control" id="role"
@@ -192,30 +182,20 @@
 
 <!--DELETE MODAL-->
 <div class="modal fade"
+     id="deleteModal"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" modal-dialog-centered>
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete
+                <h5 class="modal-title" id="deleteModalLabel">Delete
                     user</h5>
                 <button type="button" class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
-            <form class="modal-body col-md text-center">
-                <div class="modal-body col-md">
-                    <label for="id"><b>ID</b></label>
-                    <input  class="form-control" id="id"  disabled/>
-                    <br>
-                    <label for="name1"><b>First Name</b></label>
-                    <input class="form-control" id="name1"  disabled/>
-                    <br>
-                    <label for="surname1"><b>Last Name</b></label>
-                    <input class="form-control" id="surname1" disabled/>
-                    <br>
-                    <label for="age1"><b>User City</b></label>
-                    <input class="form-control" id="age1"  disabled/>
-                    <br>
+            <form class="modal-body col-md text-center" id="formDeleteUser">
+                <div class="modal-body col-md" id="delete-modal-body">
+
                 </div>
 
                 <div class="modal-footer">

@@ -20,6 +20,6 @@ public class RoleController {
 
     @GetMapping
     public ResponseEntity<Set<Role>> list(){
-        return ResponseEntity.ok(roleService.findAll());
+        return ResponseEntity.ok(roleService.findAllRoles());
     }
 }

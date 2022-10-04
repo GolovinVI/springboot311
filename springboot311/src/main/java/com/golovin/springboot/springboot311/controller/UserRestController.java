@@ -4,6 +4,7 @@ import com.golovin.springboot.springboot311.model.User;
 import com.golovin.springboot.springboot311.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,8 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping("/principle")
-    public ResponseEntity<User> getPrinciple(){
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        return ResponseEntity.ok(userService.findByFirstName(securityContext.getAuthentication().getName()));
+    public ResponseEntity<User> getPrinciple(@AuthenticationPrincipal User userData){
+        return ResponseEntity.ok(userData);
     }
 
     @GetMapping("/all")

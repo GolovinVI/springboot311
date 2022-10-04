@@ -46,8 +46,8 @@ async function loadList() {
                                         <a type="button" 
                                            class="btn btn-sm btn-danger" 
                                            data-bs-toggle="modal"
-                                           data-bs-target="#DELETE" 
-                                           id="delete-btn"
+                                           data-bs-target="#deleteModal" 
+                                           id="${value.id}"
                                            data-id="${value.id}" 
                                            data-target="#delete">Delete</a>
                                     </td>
@@ -73,7 +73,9 @@ const getRoles = async () => {
 
 loadList().then(() => {
     let editModal = document.getElementById('editModal')
+    let deleteModal = document.getElementById('deleteModal')
     let editModalBody = document.getElementById('edit-modal-body')
+    let deleteModalBody = document.getElementById('delete-modal-body')
 
     editModal.addEventListener('shown.bs.modal', async function (ev) {
         let userId = ev.relatedTarget.id
@@ -81,27 +83,7 @@ loadList().then(() => {
         let roles = await getRoles()
 
         let div = document.createElement('div')
-        div.innerHTML = `<br>
-                    <label for="firstName0"><b></b>First name</label>
-                    <input class="form-control" id="firstName0" name="firstName" value="${user.firstName}"/>
-                    <br>
-                    <label for="lastName0"><b></b>Last Name</label>
-                    <input class="form-control" id="lastName0" value="${user.lastName}" name="lastName"/>
-                    <br>
-                    <label for="userCity0"><b></b>City</label>
-                    <input class="form-control" id="userCity0" value="${user.userCity}" name="userCity"/>
-
-                    <br>
-                    <label for="password0"><b>Password</b></label>
-                    <input  type="text" class="form-control" id="password0" name="password" value="${user.password}"/>
-                    <br>
-                    <label for="roles"><b>Role</b></label>
-                    <select multiple class="form-control form-control-sm" id="edit-modal-select"
-                            name="roles" size="2" required>
-                             
-                    </select>
-                    <br><br>
-                `
+        div.innerHTML = modal(user,false)
         div.nodeName='btnDivModal'
         let selectEditModal = div.getElementsByTagName('select')[0]
         roles.forEach(role => {
@@ -122,8 +104,58 @@ loadList().then(() => {
         editUser()
     })
 
+    deleteModal.addEventListener('shown.bs.modal', async function (ev) {
+        let userId = ev.relatedTarget.id
+        let user = await getUser(userId)
+        let roles = await getRoles()
+
+        let div = document.createElement('div')
+        div.innerHTML = modal(user,true)
+        div.nodeName='btnDivModal'
+        let selectEditModal = div.getElementsByTagName('select')[0]
+        roles.forEach(role => {
+                let selectedRole = !!user.roles.find(value=>value.value===role.value);
+                let el = document.createElement("option");
+                el.text = role.value.substring(5);
+                el.value = role.id;
+                if (selectedRole) el.selected = true;
+                selectEditModal.appendChild(el)
+            }
+        )
+        const deleteForm = document.forms["formDeleteUser"];
+        deleteForm.name=user.id
+        deleteModal.addEventListener('hidden.bs.modal',()=>{
+            deleteModalBody.removeChild(div)
+        })
+        deleteModalBody.appendChild(div)
+
+    })
+
 })
 
+const modal=(user,disable)=>{
+    return `<br>
+                    <label for="firstName0"><b></b>First name</label>
+                    <input class="form-control" id="firstName0" name="firstName" value="${user.firstName}"/>
+                    <br>
+                    <label for="lastName0"><b></b>Last Name</label>
+                    <input class="form-control" id="lastName0" value="${user.lastName}" name="lastName" disabled="${disable}"/>
+                    <br>
+                    <label for="userCity0"><b></b>City</label>
+                    <input class="form-control" id="userCity0" value="${user.userCity}" name="userCity" disabled="${disable}"/>
+
+                    <br>
+                    <label for="password0"><b>Password</b></label>
+                    <input  type="text" class="form-control" id="password0" name="password" value="${user.password}" disabled="${disable}"/>
+                    <br>
+                    <label for="roles"><b>Role</b></label>
+                    <select multiple class="form-control form-control-sm" id="edit-modal-select"
+                            name="roles" size="2" required disabled="${disable}">
+                             
+                    </select>
+                    <br><br>
+                `
+}
 
 const editUser=() =>{
     const editForm = document.forms["formEditUser"];
